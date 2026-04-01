@@ -1,0 +1,17 @@
+{{ range $id, $tv_series := hugo.Data.tvseries }}
+  {{ $params := dict
+    "id" $id
+    "seasons" $tv_series.seasons
+    "genres" $tv_series.genres
+  }}
+
+  {{ $page := dict
+    "kind" "page"
+    "title" $tv_series.title
+    "dates" (dict "date" (time $tv_series.date))
+    "params" $params
+    "path" (lower $id)
+  }}
+
+  {{ $.AddPage $page }}
+{{ end }}

@@ -1,0 +1,14 @@
+<h2>Videos</h2>
+{{ range $channel_id, $channel := hugo.Data.channels }}
+  {{ range $id, $video := $channel.videos }}
+    {{ if eq $video.tmdb_id $.Params.id }}
+      <p><a href="https://www.youtube.com/watch?v={{ $id }}">{{ $video.title }}</a></p>
+      <p>Channel: <a href="/channels/{{ lower $channel_id }}">{{ $channel.title }}
+        {{ with resources.Get (print "images/channels/" $channel_id ".jpg") }}
+          <img src="{{ .RelPermalink }}" width="50" height="50" alt="Logo for the channel '{{ $.Title }}'.">
+        {{ end }}</a>
+      </p>
+      <p>Posted: {{ $video.date | dateFormat $.Site.Params.dateFormat }}</p>
+    {{ end }}
+  {{ end }}
+{{ end }}

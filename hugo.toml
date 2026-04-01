@@ -1,0 +1,26 @@
+title = "FirstTimeWatching"
+baseURL = "https://firsttimewatching.com/"
+locale = "en"
+disableKinds = [
+  "taxonomy",
+  "term",
+]
+[params]
+  dateFormat = ":date_medium"
+[menus]
+  [[menus.main]]
+    name = "Channels"
+    pageRef = "/channels"
+    weight = 1
+  [[menus.main]]
+    name = "Movies"
+    pageRef = "/movies"
+    weight = 10
+  [[menus.main]]
+    name = "TV Series"
+    pageRef = "/tv-series"
+    weight = 20
+  [[menus.main]]
+    name = "About"
+    pageRef = "/about"
+    weight = 50

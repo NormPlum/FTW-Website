@@ -1,0 +1,15 @@
+{{ range $id, $channel := hugo.Data.channels }}
+  {{ $params := dict
+    "id" $id
+  }}
+
+  {{ $page := dict
+    "kind" "page"
+    "title" $channel.title
+    "dates" (dict "date" (time $channel.date))
+    "params" $params
+    "path" (lower $id)
+  }}
+
+  {{ $.AddPage $page }}
+{{ end }}

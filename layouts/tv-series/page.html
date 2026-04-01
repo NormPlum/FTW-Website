@@ -1,0 +1,15 @@
+{{ define "main" }}
+  <h1>{{ .Title }}</h1>
+  <p>Released: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
+  <p>Seasons: {{ .Params.seasons }}</p>
+  <p>Genres:</p>
+  <ul>
+    {{ range .Params.genres }}
+      <li>{{ . }}</li>
+    {{ end }}
+  </ul>
+  <p><a href="https://www.themoviedb.org/tv/{{ .Params.id }}">View on TMDB</a></p>
+  {{ with resources.Get (print "images/tv-series/" .Params.id ".jpg") }}
+    <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="Poster for the TV series '{{ $.Title }}'.">
+  {{ end }}
+{{ end }}
