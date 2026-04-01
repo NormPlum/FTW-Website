@@ -1,5 +1,5 @@
 <h2>Videos</h2>
-{{ range $id, $video := index hugo.Data.channels .Params.id "videos" }}
+{{ range $video_id, $video := sort (index hugo.Data.channels .Params.id "videos") "date" "desc" }}
   {{ $tmdb := index hugo.Data.movies $video.tmdb_id }}
   {{ $type := "Movie" }}
   {{ $url_path := "movies" }}
@@ -9,7 +9,7 @@
     {{ $url_path = "tv-series" }}
   {{ end }}
 
-  <p><a href="https://www.youtube.com/watch?v={{ $id }}">{{ $video.title }}</a></p>
+  <p><a href="https://www.youtube.com/watch?v={{ $video_id }}">{{ $video.title }}</a></p>
   <p><a href="/{{ $url_path }}/{{ lower $video.tmdb_id }}">{{ $tmdb.title }} ({{ $tmdb.date | dateFormat "2006" }})
     {{ with resources.Get (print "images/" $url_path "/" $video.tmdb_id ".jpg") }}
       <img src="{{ .RelPermalink }}" width="50" height="" alt="Poster for the movie '{{ $.Title }}'.">
