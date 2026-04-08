@@ -12,4 +12,5 @@
   {{ with resources.Get (print "images/tv-series/" .Params.id ".jpg") }}
     <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="Poster for the TV series '{{ $.Title }}'.">
   {{ end }}
+  {{ partial "tv-series-videos.html" . }}
 {{ end }}
