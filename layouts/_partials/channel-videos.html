@@ -1,4 +1,7 @@
 <h2>Videos</h2>
+{{ range $video_id, $video := sort (index hugo.Data.channels .Params.id "videos") "date" }}
+  {{ print $video_id }}
+{{ end }}
 {{ range $video_id, $video := sort (index hugo.Data.channels .Params.id "videos") "date" "desc" }}
   {{ $tmdb := index hugo.Data.movies $video.tmdb_id }}
   {{ $type := "Movie" }}
