@@ -1,4 +1,5 @@
 <h2>Videos</h2>
+
 {{ range $video := sort (index hugo.Data.channels .Params.id "videos") "date" "desc" }}
   {{ $tmdb := index (where hugo.Data.movies "id" $video.tmdb_id) 0 }}
   {{ $type := "Movie" }}
@@ -12,7 +13,7 @@
   <p><a href="https://www.youtube.com/watch?v={{ $video.id }}">{{ $video.title }}</a></p>
   <p><a href="/{{ $url_path }}/{{ lower $video.tmdb_id }}">{{ $tmdb.title }} ({{ $tmdb.date | dateFormat "2006" }})
     {{ with resources.Get (print "images/" $url_path "/" $video.tmdb_id ".jpg") }}
-      <img src="{{ .RelPermalink }}" width="50" height="" alt="Poster for the movie '{{ $tmdb.title }}'.">
+      <img src="{{ .RelPermalink }}" width="50" height="" alt="Poster for the movie '{{ $tmdb.title }}'." title="{{ $tmdb.title }} ({{ $tmdb.date | dateFormat "2006" }})">
     {{ end }}
   </a></p>
   <p>Genres: {{ delimit $tmdb.genres ", " }}</p>
