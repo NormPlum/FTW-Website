@@ -1,9 +1,7 @@
 {{ define "main" }}
   <h1>{{ .Title }}</h1>
   <p>Launched: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
-  {{ with index hugo.Data.channels .Params.id "videos" }}
-    <p>Videos: {{ . | len }}</p>
-  {{ end }}
+  <p>Videos: {{ index hugo.Data.channels .Params.id "videos" | len }}</p>
   <p><a href="https://www.youtube.com/channel/{{ .Params.id }}">View on YouTube</a></p>
   {{ with resources.Get (print "images/channels/" .Params.id ".jpg") }}
     <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="Logo for the channel '{{ $.Title }}'.">

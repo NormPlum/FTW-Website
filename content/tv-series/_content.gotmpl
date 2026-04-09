@@ -10,7 +10,8 @@
     "title" $tv_series.title
     "dates" (dict "date" (time $tv_series.date))
     "params" $params
-    "path" (lower $tv_series.id)
+    "slug" $tv_series.id
+    "path" $tv_series.id
   }}
 
   {{ $.AddPage $page }}

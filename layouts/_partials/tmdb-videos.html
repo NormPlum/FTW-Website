@@ -12,7 +12,7 @@
 
 {{ range $video := sort $videos "date" "desc" }}
   <p><a href="https://www.youtube.com/watch?v={{ $video.id }}">{{ $video.title }}</a></p>
-  <p>Channel: <a href="/channels/{{ lower $video.channel_id }}">{{ $video.channel_title }}
+  <p>Channel: <a href="/channels/{{ $video.channel_id }}">{{ $video.channel_title }}
     {{ with resources.Get (print "images/channels/" $video.channel_id ".jpg") }}
       <img src="{{ .RelPermalink }}" width="50" height="50" alt="Logo for the channel '{{ $video.channel_title }}'." title="{{ $video.channel_title }}">
     {{ end }}</a>

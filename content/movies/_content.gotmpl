@@ -10,7 +10,8 @@
     "title" $movie.title
     "dates" (dict "date" (time $movie.date))
     "params" $params
-    "path" (lower $movie.id)
+    "slug" $movie.id
+    "path" $movie.id
   }}
 
   {{ $.AddPage $page }}

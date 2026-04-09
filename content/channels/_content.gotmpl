@@ -8,7 +8,8 @@
     "title" $channel.title
     "dates" (dict "date" (time $channel.date))
     "params" $params
-    "path" (lower $channel.id)
+    "slug" $channel.id
+    "path" $channel.id
   }}
 
   {{ $.AddPage $page }}
