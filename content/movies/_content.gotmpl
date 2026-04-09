@@ -1,6 +1,6 @@
-{{ range $id, $movie := hugo.Data.movies }}
+{{ range $movie := hugo.Data.movies }}
   {{ $params := dict
-    "id" $id
+    "id" $movie.id
     "runtime" $movie.runtime
     "genres" $movie.genres
   }}
@@ -10,7 +10,7 @@
     "title" $movie.title
     "dates" (dict "date" (time $movie.date))
     "params" $params
-    "path" (lower $id)
+    "path" (lower $movie.id)
   }}
 
   {{ $.AddPage $page }}
