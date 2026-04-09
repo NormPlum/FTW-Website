@@ -1,0 +1,11 @@
+{{ $id := . }}
+{{ $channels := slice }}
+{{ range $channel := hugo.Data.channels }}
+  {{ range $video := $channel.videos }}
+    {{ if eq $video.tmdb_id $id }}
+      {{ $channels = $channels | append $channel.id }}
+      {{ break }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+Channels: {{ $channels | len }}

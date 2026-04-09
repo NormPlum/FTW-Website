@@ -8,6 +8,7 @@
       <li>{{ . }}</li>
     {{ end }}
   </ul>
+  <p>{{ partial "channel-count.html" .Params.id }}</p>
   <p><a href="https://www.themoviedb.org/movie/{{ .Params.id }}">View on TMDB</a></p>
   {{ with resources.Get (print "images/movies/" .Params.id ".jpg") }}
     <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="Poster for the movie '{{ $.Title }}'.">

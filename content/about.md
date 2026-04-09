@@ -25,4 +25,4 @@ them with the [movies](/movies) and [TV series](/tv-series) they're reacting to 
 Since this is largely a manual process, there are very likely to be mistakes. If you notice that a
 video doesn't match the movie/TV series it's linked to, or the season/episode numbers are incorrect,
 or we just haven't added your favourite FTW YouTube channel,
-[let us know](https://github.com/NormPlum/FirstTimeWatching/issues)!
+[let us know](https://github.com/NormPlum/FTW-Website/issues)!
