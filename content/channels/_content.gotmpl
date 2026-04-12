@@ -1,6 +1,7 @@
 {{ range $channel := hugo.Data.channels }}
   {{ $params := dict
     "id" $channel.id
+    "videos" (index hugo.Data.channels $channel.id "videos" | len)
   }}
 
   {{ $page := dict

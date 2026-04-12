@@ -4,8 +4,11 @@
 {{ range $channel := hugo.Data.channels }}
   {{ range $video := $channel.videos }}
     {{ if eq $video.tmdb_id $.Params.id }}
-      {{ $video = merge $video (dict "channel_id" $channel.id "channel_title" $channel.title) }}
-      {{ $videos = $videos | append $video }}
+      {{ $type := cond (eq $video.tmdb_type "movie") "movies" "tv-series" }}
+      {{ if eq $type $.Section }}
+        {{ $video = merge $video (dict "channel_id" $channel.id "channel_title" $channel.title) }}
+        {{ $videos = $videos | append $video }}
+      {{ end }}
     {{ end }}
   {{ end }}
 {{ end }}

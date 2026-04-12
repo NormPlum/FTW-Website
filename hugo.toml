@@ -10,17 +10,21 @@ disableKinds = [
   dateFormat = ":date_medium"
 [menus]
   [[menus.main]]
+    name = "Home"
+    pageRef = "/"
+    weight = 1
+  [[menus.main]]
     name = "Channels"
     pageRef = "/channels"
-    weight = 1
+    weight = 10
   [[menus.main]]
     name = "Movies"
     pageRef = "/movies"
-    weight = 10
+    weight = 20
   [[menus.main]]
     name = "TV Series"
     pageRef = "/tv-series"
-    weight = 20
+    weight = 30
   [[menus.main]]
     name = "About"
     pageRef = "/about"

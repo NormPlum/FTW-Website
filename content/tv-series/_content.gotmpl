@@ -3,6 +3,7 @@
     "id" $tv_series.id
     "seasons" $tv_series.seasons
     "genres" $tv_series.genres
+    "channels" (int (partial "channel-count.html" (dict "id" $tv_series.id "type" "tv_series")))
   }}
 
   {{ $page := dict

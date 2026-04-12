@@ -3,6 +3,7 @@
     "id" $movie.id
     "runtime" $movie.runtime
     "genres" $movie.genres
+    "channels" (int (partial "channel-count.html" (dict "id" $movie.id "type" "movie")))
   }}
 
   {{ $page := dict

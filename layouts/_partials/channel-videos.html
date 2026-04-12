@@ -1,11 +1,15 @@
 <h2>Videos</h2>
 
 {{ range $video := sort (index hugo.Data.channels .Params.id "videos") "date" "desc" }}
-  {{ $tmdb := index (where hugo.Data.movies "id" $video.tmdb_id) 0 }}
-  {{ $type := "Movie" }}
-  {{ $url_path := "movies" }}
-  {{ with index (where hugo.Data.tvseries "id" $video.tmdb_id) 0 }}
-    {{ $tmdb = . }}
+  {{ $tmdb := dict }}
+  {{ $type := "" }}
+  {{ $url_path := "" }}
+  {{ if eq $video.tmdb_type "movie" }}
+    {{ $tmdb = index (where hugo.Data.movies "id" $video.tmdb_id) 0 }}
+    {{ $type = "Movie" }}
+    {{ $url_path = "movies" }}
+  {{ else }}
+    {{ $tmdb = index (where hugo.Data.tvseries "id" $video.tmdb_id) 0 }}
     {{ $type = "TV Series" }}
     {{ $url_path = "tv-series" }}
   {{ end }}
