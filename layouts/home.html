@@ -1,9 +1,10 @@
 {{ define "main" }}
+  <h2>Channels</h2>
   {{ $channels := where site.RegularPages "Section" "channels" }}
-  {{ range ($channels.ByParam "videos").Reverse.Limit 3 }}
+  {{ range ($channels.ByDate.ByParam "videos").Reverse.Limit 3 }}
     {{ $title := .LinkTitle }}
     <section>
-      <h2><a href="{{ .RelPermalink }}">{{ $title }}</a></h2>
+      <h3><a href="{{ .RelPermalink }}">{{ $title }}</a></h3>
       <p>Launched: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
       <p>Videos: {{ .Params.videos }}</p>
       <p><a href="https://www.youtube.com/channel/{{ .Params.id }}">View on YouTube</a></p>
@@ -13,11 +14,12 @@
     </section>
   {{ end }}
 
+  <h2>Movies</h2>
   {{ $movies := where site.RegularPages "Section" "movies" }}
-  {{ range ($movies.ByParam "channels").Reverse.Limit 5 }}
+  {{ range ($movies.ByDate.ByParam "channels").Reverse.Limit 5 }}
     {{ $title := .LinkTitle }}
     <section>
-      <h2><a href="{{ .RelPermalink }}">{{ $title }}</a></h2>
+      <h3><a href="{{ .RelPermalink }}">{{ $title }}</a></h3>
       <p>Released: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
       <p>Runtime: {{ .Params.runtime }} mins</p>
       <p>Genres:</p>
@@ -34,11 +36,12 @@
     </section>
   {{ end }}
 
+  <h2>TV Series</h2>
   {{ $tv_series := where site.RegularPages "Section" "tv-series" }}
-  {{ range ($tv_series.ByParam "channels").Reverse.Limit 5 }}
+  {{ range ($tv_series.ByDate.ByParam "channels").Reverse.Limit 5 }}
     {{ $title := .LinkTitle }}
     <section>
-      <h2><a href="{{ .RelPermalink }}">{{ $title }}</a></h2>
+      <h3><a href="{{ .RelPermalink }}">{{ $title }}</a></h3>
       <p>Released: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
       <p>Seasons: {{ .Params.seasons }}</p>
       <p>Genres:</p>

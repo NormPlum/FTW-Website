@@ -17,7 +17,7 @@
   <p><a href="https://www.youtube.com/watch?v={{ $video.id }}">{{ $video.title }}</a></p>
   <p><a href="/{{ $url_path }}/{{ $video.tmdb_id }}">{{ $tmdb.title }} ({{ $tmdb.date | dateFormat "2006" }})
     {{ with resources.Get (print "images/" $url_path "/" $video.tmdb_id ".jpg") }}
-      <img src="{{ .RelPermalink }}" width="50" height="" alt="Poster for the movie '{{ $tmdb.title }}'." title="{{ $tmdb.title }} ({{ $tmdb.date | dateFormat "2006" }})">
+      <img src="{{ .RelPermalink }}" width="100" height="" loading="lazy" alt="Poster for the movie '{{ $tmdb.title }}'." title="{{ $tmdb.title }} ({{ $tmdb.date | dateFormat "2006" }})">
     {{ end }}
   </a></p>
   {{ with $tmdb.genres }}
