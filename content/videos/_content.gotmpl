@@ -2,8 +2,10 @@
   {{ range $video := $channel.videos }}
     {{ $params := dict
       "id" $video
-      "tmdb_id" $video.tmdb_id
       "tmdb_type" $video.tmdb_type
+      "tmdb_id" $video.tmdb_id
+      "seasons" $video.seasons
+      "episodes" $video.episodes
     }}
 
     {{ $build := dict
