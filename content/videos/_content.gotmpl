@@ -1,0 +1,27 @@
+{{ range $channel := hugo.Data.channels }}
+  {{ range $video := $channel.videos }}
+    {{ $params := dict
+      "id" $video
+      "tmdb_id" $video.tmdb_id
+      "tmdb_type" $video.tmdb_type
+    }}
+
+    {{ $build := dict
+      "list" "never"
+      "publishResources" false
+      "render" "never"
+    }}
+
+    {{ $page := dict
+      "kind" "page"
+      "title" $video.title
+      "dates" (dict "date" (time $video.date))
+      "params" $params
+      "slug" $video.id
+      "path" $video.id
+      "build" $build
+    }}
+
+    {{ $.AddPage $page }}
+  {{ end }}
+{{ end }}
