@@ -1,7 +1,7 @@
 {{ range $channel := hugo.Data.channels }}
   {{ range $video := $channel.videos }}
     {{ $params := dict
-      "id" $video
+      "id" $video.id
       "tmdb_type" $video.tmdb_type
       "tmdb_id" $video.tmdb_id
       "seasons" $video.seasons
@@ -9,7 +9,7 @@
     }}
 
     {{ $build := dict
-      "list" "never"
+      "list" "local"
       "publishResources" false
       "render" "never"
     }}
