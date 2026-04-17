@@ -1,15 +1,20 @@
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
-  {{ range (.Pages.ByDate.ByParam "videos").Reverse }}
-    {{ $title := .LinkTitle }}
-    <section>
-      <h2><a href="{{ .RelPermalink }}">{{ $title }}</a></h2>
-      <p>Launched: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
-      <p>Videos: {{ .Params.videos }}</p>
-      <p><a href="https://www.youtube.com/channel/{{ .Params.id }}">View on YouTube</a></p>
-      {{ with resources.Get (print "images/channels/" .Params.id ".jpg") }}
-        <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" loading="lazy" alt="Logo for the channel '{{ $title }}'.">
+  <div id="channels">
+    <h1>{{ .Title }}</h1>
+    <div class="sections">
+      {{ range (.Pages.ByDate.ByParam "videos").Reverse }}
+        {{ $title := .LinkTitle }}
+        <section>
+          <h2 class="title"><a href="{{ .RelPermalink }}">{{ $title }}</a></h2>
+          <p>Launched: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
+          <p>Videos: {{ .Params.videos }}</p>
+          <p><a href="https://www.youtube.com/channel/{{ .Params.id }}">View on YouTube</a></p>
+          {{ with resources.Get (print "images/channels/" .Params.id ".jpg") }}
+            <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" loading="lazy" alt="Logo for the channel '{{ $title }}'.">
+          {{ end }}
+        </section>
       {{ end }}
-    </section>
-  {{ end }}
+    </div>
+    <ul class="pagination"></ul>
+  </div>
 {{ end }}
