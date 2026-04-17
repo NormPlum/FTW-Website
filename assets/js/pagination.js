@@ -1,7 +1,8 @@
 // Channels pagination.
 var channels = new List('channels', {
   listClass: 'sections',
-  valueNames: ['title'],
+  valueNames: ['title', 'date', 'count'],
+  searchColumns: ['title'],
   pagination: true,
-  page: 5
+  page: 30
 });
