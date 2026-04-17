@@ -1,16 +1,16 @@
-{{- $id := .id }}
-{{- $type := .type }}
+{{- $id := .id -}}
+{{- $type := .type -}}
 
-{{- $channels := slice }}
-{{- range $channel := hugo.Data.channels }}
-  {{- range $video := $channel.videos }}
-    {{- if eq $video.tmdb_id $id }}
-      {{- if eq $video.tmdb_type $type }}
-        {{- $channels = $channels | append $channel.id }}
-        {{- break }}
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{- $channels := slice -}}
+{{- range $channel := hugo.Data.channels -}}
+  {{- range $video := $channel.videos -}}
+    {{- if eq $video.tmdb_id $id -}}
+      {{- if eq $video.tmdb_type $type -}}
+        {{- $channels = $channels | append $channel.id -}}
+        {{- break -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
 
 {{- $channels | len -}}

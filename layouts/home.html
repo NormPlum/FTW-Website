@@ -1,6 +1,6 @@
 {{ define "main" }}
   <h2>Channels</h2>
-  {{ $channels := where site.RegularPages "Section" "channels" }}
+  {{ $channels := (site.GetPage "/channels").RegularPages }}
   {{ range ($channels.ByDate.ByParam "videos").Reverse.Limit 3 }}
     {{ $title := .LinkTitle }}
     <section>
@@ -15,7 +15,7 @@
   {{ end }}
 
   <h2>Movies</h2>
-  {{ $movies := where site.RegularPages "Section" "movies" }}
+  {{ $movies := (site.GetPage "/movies").RegularPages }}
   {{ range ($movies.ByDate.ByParam "channels").Reverse.Limit 5 }}
     {{ $title := .LinkTitle }}
     <section>
@@ -37,7 +37,7 @@
   {{ end }}
 
   <h2>TV Series</h2>
-  {{ $tv_series := where site.RegularPages "Section" "tv-series" }}
+  {{ $tv_series := (site.GetPage "/tv-series").RegularPages }}
   {{ range ($tv_series.ByDate.ByParam "channels").Reverse.Limit 5 }}
     {{ $title := .LinkTitle }}
     <section>

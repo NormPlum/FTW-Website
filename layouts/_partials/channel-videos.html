@@ -1,31 +1,28 @@
 <h2>Videos</h2>
 
-{{ $videos := site.GetPage "/videos" }}
-{{ $movies := site.GetPage "/movies" }}
-{{ $tv_series := site.GetPage "/tv-series" }}
+{{ range $video := (site.GetPage "/videos").RegularPages }}
+  {{ if eq $video.Params.channel_id $.Params.id }}
 
-{{ range $video := $videos.RegularPages }}
-  {{ $tmdb := dict }}
-  {{ $type := "" }}
-  {{ $url_path := "" }}
-  {{ if eq $video.Params.tmdb_type "movie" }}
-    {{ $tmdb = index (where $movies.RegularPages "Params.id" $video.Params.tmdb_id) 0 }}
-    {{ $type = "Movie" }}
-    {{ $url_path = "movies" }}
-  {{ else }}
-    {{ $tmdb = index (where $tv_series.RegularPages "Params.id" $video.Params.tmdb_id) 0 }}
-    {{ $type = "TV Series" }}
-    {{ $url_path = "tv-series" }}
-  {{ end }}
-
-  <p><a href="https://www.youtube.com/watch?v={{ $video.Params.id }}">{{ $video.LinkTitle }}</a></p>
-  <p><a href="/{{ $url_path }}/{{ $video.Params.tmdb_id }}">{{ $tmdb.LinkTitle }} ({{ $tmdb.Date | dateFormat "2006" }})
-    {{ with resources.Get (print "images/" $url_path "/" $video.Params.tmdb_id ".jpg") }}
-      <img src="{{ .RelPermalink }}" width="100" height="" loading="lazy" alt="Poster for the movie '{{ $tmdb.LinkTitle }}'." title="{{ $tmdb.LinkTitle }} ({{ $tmdb.Date | dateFormat "2006" }})">
+    {{ $tmdb := dict }}
+    {{ $url_path := "" }}
+    {{ if eq $video.Params.tmdb_type "movie" }}
+      {{ $tmdb = index (where (site.GetPage "/movies").RegularPages "Params.id" $video.Params.tmdb_id) 0 }}
+      {{ $url_path = "movies" }}
+    {{ else }}
+      {{ $tmdb = index (where (site.GetPage "/tv-series").RegularPages "Params.id" $video.Params.tmdb_id) 0 }}
+      {{ $url_path = "tv-series" }}
     {{ end }}
-  </a></p>
-  {{ with $tmdb.Params.genres }}
-    <p>Genres: {{ delimit $tmdb.Params.genres ", " }}</p>
+
+    <p><a href="https://www.youtube.com/watch?v={{ $video.Params.id }}">{{ $video.LinkTitle }}</a></p>
+    <p><a href="/{{ $url_path }}/{{ $video.Params.tmdb_id }}">{{ $tmdb.LinkTitle }} ({{ $tmdb.Date | dateFormat "2006" }})
+      {{ with resources.Get (print "images/" $url_path "/" $video.Params.tmdb_id ".jpg") }}
+        <img src="{{ .RelPermalink }}" width="100" height="" loading="lazy" alt="Poster for '{{ $tmdb.LinkTitle }}'." title="{{ $tmdb.LinkTitle }} ({{ $tmdb.Date | dateFormat "2006" }})">
+      {{ end }}
+    </a></p>
+    {{ with $tmdb.Params.genres }}
+      <p>Genres: {{ delimit $tmdb.Params.genres ", " }}</p>
+    {{ end }}
+    <p>Posted: {{ $video.Date | dateFormat $.Site.Params.dateFormat }}</p>
+
   {{ end }}
-  <p>Posted: {{ $video.Date | dateFormat $.Site.Params.dateFormat }}</p>
 {{ end }}
