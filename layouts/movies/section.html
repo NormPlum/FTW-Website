@@ -1,22 +1,48 @@
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
-  {{ range (.Pages.ByDate.ByParam "channels").Reverse }}
-    {{ $title := .LinkTitle }}
-    <section>
-      <h2><a href="{{ .RelPermalink }}">{{ $title }}</a></h2>
-      <p>Released: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
-      <p>Runtime: {{ .Params.runtime }} mins</p>
-      <p>Genres:</p>
-      <ul>
-        {{ range .Params.genres }}
-          <li>{{ . }}</li>
-        {{ end }}
-      </ul>
-      <p>Channels: {{ .Params.channels }}</p>
-      <p><a href="https://www.themoviedb.org/movie/{{ .Params.id }}">View on TMDB</a></p>
-      {{ with resources.Get (print "images/movies/" .Params.id ".jpg") }}
-        <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" loading="lazy" alt="Poster for the movie '{{ $.Title }}'.">
-      {{ end }}
-    </section>
+  {{ $genres := slice }}
+  {{ range .Pages }}
+    {{ $genres = $genres | append .Params.genres }}
   {{ end }}
+  {{ $genres = (sort $genres | uniq) }}
+
+  <h1>{{ .Title }}</h1>
+  <div id="movies">
+    <input class="fuzzy-search" type="search" placeholder="Search">
+    <select id="genre-filter">
+      <option value="">- Genre -</option>
+      {{ range $genres }}
+        <option value="{{ . }}">{{ . }}</option>
+      {{ end }}
+    </select>
+    <p>Sort by:
+      <span class="sort" data-sort="title">Name</span>
+      <span class="sort" data-sort="date" data-default-order="desc">Date</span>
+      <span class="sort" data-sort="runtime" data-default-order="desc">Runtime</span>
+      <span class="sort desc" data-sort="count" data-default-order="desc">Channels</span>
+    </p>
+    <div class="list">
+
+      {{ range (.Pages.ByDate.ByParam "channels").Reverse }}
+        {{ $title := .LinkTitle }}
+        <section>
+          <h2><a href="{{ .RelPermalink }}"><span class="title">{{ $title }}</span></a></h2>
+          <p>Released: {{ .Date | dateFormat .Site.Params.dateFormat }}<span class="date" style="display:none;">{{ .Date | dateFormat "2006-01-02" }}</span></p>
+          <p>Runtime: <span class="runtime">{{ .Params.runtime }}</span> mins</p>
+          <p>Genres:</p>
+          <ul class="genres" data-genres="{{ delimit .Params.genres "," }}">
+            {{ range .Params.genres }}
+              <li>{{ . }}</li>
+            {{ end }}
+          </ul>
+          <p>Channels: <span class="count">{{ .Params.channels }}</span></p>
+          <p><a href="https://www.themoviedb.org/movie/{{ .Params.id }}">View on TMDB</a></p>
+          {{ with resources.Get (print "images/movies/" .Params.id ".jpg") }}
+            <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" loading="lazy" alt="Poster for the movie '{{ $.Title }}'.">
+          {{ end }}
+        </section>
+      {{ end }}
+
+    </div>
+    <ul class="pagination"></ul>
+  </div>
 {{ end }}
