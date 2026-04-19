@@ -1,9 +1,11 @@
 {{ range $movie := hugo.Data.movies }}
+  {{ $channel_count := partial "channel-count.html" (dict "id" $movie.id "type" "movie") }}
+
   {{ $params := dict
     "id" $movie.id
     "runtime" $movie.runtime
     "genres" $movie.genres
-    "channels" (int (partial "channel-count.html" (dict "id" $movie.id "type" "movie")))
+    "channels" $channel_count
   }}
 
   {{ $page := dict

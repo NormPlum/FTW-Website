@@ -13,7 +13,7 @@
         {{ $title := .LinkTitle }}
         <section>
           <h2><a href="{{ .RelPermalink }}"><span class="title">{{ $title }}</span></a></h2>
-          <p>Launched: {{ .Date | dateFormat .Site.Params.dateFormat }}<span class="date" style="display:none;">{{ .Date | dateFormat "2006-01-02" }}</span></p>
+          <p class="date" data-date="{{ .Date | dateFormat "2006-01-02" }}">Launched: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
           <p>Videos: <span class="count">{{ .Params.videos }}</span></p>
           <p><a href="https://www.youtube.com/channel/{{ .Params.id }}">View on YouTube</a></p>
           {{ with resources.Get (print "images/channels/" .Params.id ".jpg") }}

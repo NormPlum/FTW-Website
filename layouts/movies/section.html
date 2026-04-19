@@ -1,9 +1,5 @@
 {{ define "main" }}
-  {{ $genres := slice }}
-  {{ range .Pages }}
-    {{ $genres = $genres | append .Params.genres }}
-  {{ end }}
-  {{ $genres = (sort $genres | uniq) }}
+  {{ $genres := partial "genres.html" }}
 
   <h1>{{ .Title }}</h1>
   <div id="movies">
@@ -26,7 +22,7 @@
         {{ $title := .LinkTitle }}
         <section>
           <h2><a href="{{ .RelPermalink }}"><span class="title">{{ $title }}</span></a></h2>
-          <p>Released: {{ .Date | dateFormat .Site.Params.dateFormat }}<span class="date" style="display:none;">{{ .Date | dateFormat "2006-01-02" }}</span></p>
+          <p class="date" data-date="{{ .Date | dateFormat "2006-01-02" }}">Released: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
           <p>Runtime: <span class="runtime">{{ .Params.runtime }}</span> mins</p>
           <p>Genres:</p>
           <ul class="genres" data-genres="{{ delimit .Params.genres "," }}">

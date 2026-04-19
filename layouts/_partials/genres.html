@@ -1,0 +1,11 @@
+{{ $genres := slice }}
+
+{{- range $movie := hugo.Data.movies -}}
+  {{ $genres = $genres | append $movie.genres }}
+{{ end }}
+
+{{- range $tv_series := hugo.Data.tvseries -}}
+  {{ $genres = $genres | append $tv_series.genres }}
+{{ end }}
+
+{{ return (sort $genres | uniq) }}
