@@ -3,7 +3,7 @@
 
   <h1>TV Series</h1>
   <div id="tv-series">
-    <input class="fuzzy-search" type="search" placeholder="Search">
+    <input id="search" class="fuzzy-search" type="search" placeholder="Search">
     <select id="genre-filter">
       <option value="">- Genre -</option>
       {{ range $genres }}
@@ -16,6 +16,7 @@
       <span class="sort" data-sort="seasons" data-default-order="desc">Seasons</span>
       <span class="sort desc" data-sort="count" data-default-order="desc">Channels</span>
     </p>
+    <button id="reset">Reset</button>
     <div class="list">
 
       {{ range (.Pages.ByDate.ByParam "channels").Reverse }}
@@ -39,6 +40,7 @@
       {{ end }}
 
     </div>
+    <p id="empty">No results</p>
     <ul class="pagination"></ul>
   </div>
 {{ end }}
