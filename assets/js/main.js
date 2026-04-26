@@ -3,6 +3,6 @@ $(document).ready(function() {
     items: "section",
     empty: "#empty",
     pager: "#pager",
-    pager_per_page: 5,
+    pagerItemsPerPage: 5,
   });
 });

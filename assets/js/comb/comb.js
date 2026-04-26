@@ -1,9 +1,19 @@
 class Comb {
 
-  // Validate the settings.
+  // Initial setup.
   constructor(settings) {
-    // Expected settings and validation tests.
-    const expected = {
+    this.settings = this.validateSettings(settings);
+
+    // Pager.
+    if (this.settings.pager) {
+      this.configurePager();
+    }
+  }
+
+  // Validate the settings.
+  validateSettings(settings) {
+    // All possible settings and their validation tests.
+    const allSettings = {
       "items": {
         required: true,
         type: "string",
@@ -22,7 +32,7 @@ class Comb {
         default: null,
         selector: true,
       },
-      "pager_per_page": {
+      "pagerItemsPerPage": {
         required: false,
         type: "number",
         default: 10,
@@ -30,11 +40,10 @@ class Comb {
       },
     };
 
-    // Validate settings.
-    for (let setting in expected) {
+    for (let setting in allSettings) {
       try {
         // Required settings.
-        if (expected[setting].required) {
+        if (allSettings[setting].required) {
           if (!(setting in settings)) {
             throw `'${setting}' is required.`;
             continue;
@@ -43,12 +52,12 @@ class Comb {
 
         if (setting in settings) {
           // Check type.
-          if (typeof settings[setting] !== expected[setting].type) {
-            throw `'${setting}' must be of type ${expected[setting].type}`;
+          if (typeof settings[setting] !== allSettings[setting].type) {
+            throw `'${setting}' must be of type ${allSettings[setting].type}`;
           }
 
           // Selectors.
-          if (expected[setting].selector) {
+          if (allSettings[setting].selector) {
             if (!$(settings[setting]).length) {
               throw `Element(s) '${settings[setting]}' cannot be found.`;
             }
@@ -61,12 +70,22 @@ class Comb {
 
       // Set default values.
       if (!(setting in settings)) {
-        settings[setting] = expected[setting].default;
+        settings[setting] = allSettings[setting].default;
+      }
+
+      // Get selector elements.
+      if (allSettings[setting].selector) {
+        this[setting] = $(settings[setting]);
       }
     }
 
-    this.settings = settings;
-    console.log(this.settings);
+    return settings;
+  }
+
+  // Configure the pager.
+  configurePager() {
+    var numPages = Math.max(Math.ceil(this.items.length / this.settings.pagerItemsPerPage), 1);
+    console.log(numPages);
   }
 
 }
