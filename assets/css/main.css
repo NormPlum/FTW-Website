@@ -21,6 +21,6 @@ footer {
   margin-top: 1rem;
 }
 
-#empty {
+.comb-hidden {
   display: none;
 }

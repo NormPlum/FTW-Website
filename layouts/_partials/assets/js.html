@@ -2,15 +2,11 @@
   <script src="{{ .RelPermalink }}"></script>
 {{- end }}
 
-{{- with resources.Get "js/comb/comb.js" }}
-  <script src="{{ .RelPermalink }}"></script>
-{{- end }}
-
 {{- with resources.Get "js/main.js" }}
   {{- $opts := dict
     "minify" (cond hugo.IsDevelopment false true)
   }}
   {{- with . | js.Build $opts }}
-    <script src="{{ .RelPermalink }}"></script>
+    <script src="{{ .RelPermalink }}" type="module"></script>
   {{- end }}
 {{- end }}

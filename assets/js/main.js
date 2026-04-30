@@ -1,3 +1,5 @@
+import Comb from "./comb/comb.js";
+
 $(document).ready(function() {
   var comb = new Comb({
     items: "section",

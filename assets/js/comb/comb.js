@@ -1,13 +1,18 @@
+import Pager from "./pager.js";
+
 class Comb {
 
   // Initial setup.
   constructor(settings) {
     this.settings = this.validateSettings(settings);
+    this.hiddenClass = "comb-hidden";
 
     // Pager.
     if (this.settings.pager) {
-      this.configurePager();
+      this.pager = new Pager(this);
     }
+
+    console.log(this);
   }
 
   // Validate the settings.
@@ -73,7 +78,7 @@ class Comb {
         settings[setting] = allSettings[setting].default;
       }
 
-      // Get selector elements.
+      // Get selector element(s).
       if (allSettings[setting].selector) {
         this[setting] = $(settings[setting]);
       }
@@ -82,10 +87,16 @@ class Comb {
     return settings;
   }
 
-  // Configure the pager.
-  configurePager() {
-    var numPages = Math.max(Math.ceil(this.items.length / this.settings.pagerItemsPerPage), 1);
-    console.log(numPages);
+  // Hide an item.
+  hideItem(item) {
+    $(item).addClass(this.hiddenClass);
+  }
+
+  // Show an item.
+  showItem(item) {
+    $(item).removeClass(this.hiddenClass);
   }
 
 }
+
+export default Comb;
