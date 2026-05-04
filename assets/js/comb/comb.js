@@ -4,11 +4,17 @@ class Comb {
 
   // Initial setup.
   constructor(settings) {
+    this.elements = {}
     this.settings = this.validateSettings(settings);
     this.hiddenClass = "comb-hidden";
 
+    // Empty.
+    if (this.elements.empty) {
+      $(this.elements.empty).hide();
+    }
+
     // Pager.
-    if (this.settings.pager) {
+    if (this.elements.pager) {
       this.pager = new Pager(this);
     }
 
@@ -80,21 +86,26 @@ class Comb {
 
       // Get selector element(s).
       if (allSettings[setting].selector) {
-        this[setting] = $(settings[setting]);
+        this.elements[setting] = $(settings[setting]).get();
       }
     }
 
     return settings;
   }
 
+  // Get a list of visible items.
+  visibleItems() {
+    return $(this.elements.items).not("." + this.hiddenClass).get();
+  }
+
   // Hide an item.
   hideItem(item) {
-    $(item).addClass(this.hiddenClass);
+    $(item).addClass(this.hiddenClass).hide();
   }
 
   // Show an item.
   showItem(item) {
-    $(item).removeClass(this.hiddenClass);
+    $(item).removeClass(this.hiddenClass).show();
   }
 
 }
