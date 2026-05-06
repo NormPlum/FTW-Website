@@ -118,25 +118,27 @@ class Pager {
     let listItem = $("<li></li>");
     let anchor = $('<a href="#"></a>');
 
-    if (["previous", "next"].includes(type)) {
-      anchor.text(type);
-      let page = (type == "previous") ? this.currentPage - 1 : this.currentPage + 1;
-      anchor.attr("data-page", page);
-      listItem.append(anchor);
-      listItem.addClass("comb-pager-" + type);
-    }
-    else if (type == "ellipsis") {
-      listItem.text("…");
-      listItem.addClass("comb-pager-" + type);
-    }
-    else if (type == this.currentPage) {
-      listItem.text(type);
-      listItem.addClass("comb-pager-active");
-    }
-    else {
-      anchor.text(type);
-      anchor.attr("data-page", type);
-      listItem.append(anchor);
+    switch (type) {
+      case "previous":
+      case "next":
+        anchor.text(type);
+        let page = (type == "previous") ? this.currentPage - 1 : this.currentPage + 1;
+        anchor.attr("data-page", page);
+        listItem.append(anchor);
+        listItem.addClass("comb-pager-" + type);
+        break;
+      case "ellipsis":
+        listItem.text("…");
+        listItem.addClass("comb-pager-" + type);
+        break;
+      case this.currentPage:
+        listItem.text(type);
+        listItem.addClass("comb-pager-active");
+        break;
+      default:
+        anchor.text(type);
+        anchor.attr("data-page", type);
+        listItem.append(anchor);
     }
 
     return listItem;
