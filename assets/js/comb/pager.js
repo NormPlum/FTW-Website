@@ -4,7 +4,7 @@ class Pager {
   constructor(comb) {
     this.comb = comb;
     this.currentPage = 1;
-    this.pageClass = "comb-current-page";
+    this.pagerWidth = 5;
 
     this.paginate();
   }
@@ -44,11 +44,58 @@ class Pager {
   // Update the pager links.
   updatePager() {
     // Build the pager.
-    let pagerList = $("<ul></ul>");
-    for (let i = 0; i < this.numPages(); i++) {
-      let page = i + 1;
-      let active = (page == this.currentPage) ? ' class="comb-active"' : "";
-      pagerList.append('<li><a href="#"' + active + ' data-page="' + page + '">' + page + '</a></li>');
+    let pagerList = $('<ul class="comb-pager"></ul>');
+
+    // Calculate the lower and upper limits of the pager links.
+    let lowerLimit = 1;
+    let upperLimit = this.numPages();
+
+    if (this.numPages() > this.pagerWidth) {
+      let adjacentLinks = Math.floor(this.pagerWidth / 2);
+      lowerLimit = this.currentPage - adjacentLinks;
+      upperLimit = this.currentPage + adjacentLinks;
+
+      if (lowerLimit < 1) {
+        upperLimit += 1 - lowerLimit;
+        lowerLimit = 1;
+      }
+      if (upperLimit > this.numPages()) {
+        lowerLimit -= upperLimit - this.numPages();
+        upperLimit = this.numPages();
+      }
+    }
+
+    // 'Previous' link.
+    if (this.currentPage > 1) {
+      pagerList.append(this.pagerItem("previous"));
+    }
+
+    // First page link.
+    if (lowerLimit > 1) {
+      pagerList.append(this.pagerItem("1"));
+
+      if (lowerLimit > 2) {
+        pagerList.append(this.pagerItem("ellipsis"));
+      }
+    }
+
+    // Numbered links.
+    for (let i = lowerLimit; i <= upperLimit; i++) {
+      pagerList.append(this.pagerItem(i));
+    }
+
+    // Last page link.
+    if (upperLimit < this.numPages()) {
+      if (upperLimit < this.numPages() - 1) {
+        pagerList.append(this.pagerItem("ellipsis"));
+      }
+
+      pagerList.append(this.pagerItem(this.numPages()));
+    }
+
+    // 'Next' link.
+    if (this.currentPage < this.numPages()) {
+      pagerList.append(this.pagerItem("next"));
     }
 
     // Add/update the pager.
@@ -60,10 +107,39 @@ class Pager {
     }
 
     // Handle click events.
-    $(this.comb.elements.pager).find("ul a").on("click", (event) => {
+    $(this.comb.elements.pager).find("ul.comb-pager a").on("click", (event) => {
       this.currentPage = $(event.currentTarget).data("page");
       this.paginate();
     });
+  }
+
+  // Generate a single pager link.
+  pagerItem(type) {
+    let listItem = $("<li></li>");
+    let anchor = $('<a href="#"></a>');
+
+    if (["previous", "next"].includes(type)) {
+      anchor.text(type);
+      let page = (type == "previous") ? this.currentPage - 1 : this.currentPage + 1;
+      anchor.attr("data-page", page);
+      listItem.append(anchor);
+      listItem.addClass("comb-pager-" + type);
+    }
+    else if (type == "ellipsis") {
+      listItem.text("…");
+      listItem.addClass("comb-pager-" + type);
+    }
+    else if (type == this.currentPage) {
+      listItem.text(type);
+      listItem.addClass("comb-pager-active");
+    }
+    else {
+      anchor.text(type);
+      anchor.attr("data-page", type);
+      listItem.append(anchor);
+    }
+
+    return listItem;
   }
 
 }
