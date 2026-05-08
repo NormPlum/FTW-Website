@@ -43,6 +43,11 @@ class Pager {
 
   // Update the pager links.
   updatePager() {
+    // Skip the pager if there's only one page.
+    if (this.numPages() == 1) {
+      return;
+    }
+
     // Build the pager.
     let pagerList = $('<ul class="comb-pager"></ul>');
 
@@ -108,12 +113,12 @@ class Pager {
 
     // Handle click events.
     $(this.comb.elements.pager).find("ul.comb-pager a").on("click", (event) => {
-      this.currentPage = $(event.currentTarget).data("page");
+      this.currentPage = $(event.currentTarget).attr("data-page");
       this.paginate();
     });
   }
 
-  // Generate a single pager link.
+  // Generate a single pager item.
   pagerItem(type) {
     let listItem = $("<li></li>");
     let anchor = $('<a href="#"></a>');

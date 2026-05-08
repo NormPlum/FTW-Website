@@ -1,3 +1,4 @@
+import Sort from "./sort.js";
 import Pager from "./pager.js";
 
 class Comb {
@@ -13,12 +14,17 @@ class Comb {
       $(this.elements.empty).hide();
     }
 
+    // Sort.
+    if (this.elements.sort) {
+      this.sort = new Sort(this);
+    }
+
     // Pager.
     if (this.elements.pager) {
       this.pager = new Pager(this);
     }
 
-    console.log(this);
+    // console.log(this.settings);
   }
 
   // Validate the settings.
@@ -36,6 +42,18 @@ class Comb {
         type: "string",
         default: null,
         selector: true,
+      },
+      "sort": {
+        required: false,
+        type: "string",
+        default: null,
+        selector: true,
+      },
+      "sortFields": {
+        required: false,
+        type: "object",
+        default: {},
+        selector: false,
       },
       "pager": {
         required: false,
@@ -82,6 +100,19 @@ class Comb {
       // Set default values.
       if (!(setting in settings)) {
         settings[setting] = allSettings[setting].default;
+      }
+      else if (setting == "sortFields") {
+        for (let field in settings[setting]) {
+          if (!settings[setting][field].text) {
+            settings[setting][field].text = field.replace(/\b\w/, char => char.toUpperCase());
+          }
+          if (!settings[setting][field].order) {
+            settings[setting][field].order = "asc";
+          }
+          if (!settings[setting][field].default) {
+            settings[setting][field].default = false;
+          }
+        }
       }
 
       // Get selector element(s).
