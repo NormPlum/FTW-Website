@@ -24,7 +24,7 @@ class Comb {
       this.pager = new Pager(this);
     }
 
-    // console.log(this.settings);
+    console.log(this.settings);
   }
 
   // Validate the settings.
@@ -53,6 +53,12 @@ class Comb {
         required: false,
         type: "object",
         default: {},
+        selector: false,
+      },
+      "sortIndicators": {
+        required: false,
+        type: "object",
+        default: ["▴", "▾"],
         selector: false,
       },
       "pager": {
@@ -112,6 +118,12 @@ class Comb {
           if (!settings[setting][field].default) {
             settings[setting][field].default = false;
           }
+        }
+      }
+      if (setting == "sortIndicators") {
+        settings[setting] = {
+          "asc": settings[setting][0],
+          "desc": settings[setting][1],
         }
       }
 

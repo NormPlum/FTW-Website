@@ -34,6 +34,7 @@ class Sort {
     let otherLinks = $(this.sortLinks).not(link).get();
     for (let i in otherLinks) {
       $(otherLinks[i]).removeAttr("data-order");
+      $(otherLinks[i]).children("span").remove();
     }
 
     // Toggle the order.
@@ -46,6 +47,20 @@ class Sort {
     else {
       let defaultOrder = this.comb.settings.sortFields[$(link).attr("data-field")].order;
       $(link).attr("data-order", defaultOrder);
+    }
+
+    // Add/update the span element.
+    if ($(link).children("span").length) {
+      if ($(link).children("span").text() == " " + this.comb.settings.sortIndicators["asc"]) {
+        $(link).children("span").text(" " + this.comb.settings.sortIndicators["desc"]);
+      }
+      else {
+        $(link).children("span").text(" " + this.comb.settings.sortIndicators["asc"]);
+      }
+    }
+    else {
+      let defaultOrder = this.comb.settings.sortFields[$(link).attr("data-field")].order;
+      $(link).append("<span> " + this.comb.settings.sortIndicators[defaultOrder] + "</span>");
     }
 
     return $(link).attr("data-order");
