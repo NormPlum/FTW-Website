@@ -18,12 +18,12 @@ class Sort {
     });
 
     // Set the initial sort if there's a default.
-    // for (let field in this.comb.settings.sortFields) {
-    //   if (this.comb.settings.sortFields[field].default) {
-    //     $(this.comb.elements.sort).find('ul.comb-sort a[data-field="' + field + '"]').trigger("click");
-    //     break;
-    //   }
-    // }
+    for (let field in this.comb.settings.sortFields) {
+      if (this.comb.settings.sortFields[field].default) {
+        $(this.comb.elements.sort).find('ul.comb-sort a[data-field="' + field + '"]').trigger("click");
+        break;
+      }
+    }
   }
 
   // Click on a sort link.
@@ -45,7 +45,7 @@ class Sort {
       $(link).attr("data-order", defaultOrder);
     }
 
-    // Add/update the span element.
+    // Add/update the sort indicator.
     if ($(link).children("span").length) {
       let current = Object.keys(this.comb.settings.sortIndicators).find((key) => this.comb.settings.sortIndicators[key] === $(link).children("span").text().trim());
       $(link).children("span").text(" " + this.comb.settings.sortIndicators[this.toggleOrder(current)]);
@@ -63,7 +63,7 @@ class Sort {
     return (current == "asc") ? "desc" : "asc";
   }
 
-  // Sort items with the quicksort algorithm (https://en.wikipedia.org/wiki/Quicksort).
+  // Sort items using the quicksort algorithm (https://en.wikipedia.org/wiki/Quicksort).
   sortItems(field, type, order, start = null, end = null) {
     let items = $(this.comb.elements.items);
     if (start == null) start = 0;
@@ -73,19 +73,25 @@ class Sort {
 
     let i = start - 1;
     let j = end + 1;
-    let p = Math.floor((end - start) / 2) + start;
-    let pivot = this.getValue(items[p], field);
+    let p = Math.floor((end - start) / 2) + start; // Pivot from the middle for the best performance.
+    let pivot = this.getValue(items[p], field, type);
+
+    // Functions to allow sorting ascending or descending.
+    let compare = {
+      "asc": function(i, j) {return i < j},
+      "desc": function(i, j) {return i > j},
+    };
 
     while (true) {
       do {
         i += 1;
       }
-      while (this.getValue(items[i], field) < pivot);
+      while (compare[order](this.getValue(items[i], field, type), pivot));
 
       do {
         j -= 1;
       }
-      while (this.getValue(items[j], field) > pivot);
+      while (compare[this.toggleOrder(order)](this.getValue(items[j], field, type), pivot));
 
       if (i >= j) {
         p = j;
@@ -95,13 +101,24 @@ class Sort {
       items = this.swapItems(items[i], items[j]);
     }
 
+    // Recursively sort all items on either side of the pivot.
     this.sortItems(field, type, order, start, p);
     this.sortItems(field, type, order, p + 1, end);
   }
 
   // Get the value to sort by.
-  getValue(item, field) {
-    return $(item).find("[data-" + field + "]").attr("data-" + field);
+  getValue(item, field, type) {
+    let value = $(item).find("[data-" + field + "]").attr("data-" + field);
+
+    // Sort by numerical value or case-insensitive string.
+    if (type == "number") {
+      value = Number(value);
+    }
+    else {
+      value = value.toLowerCase();
+    }
+
+    return value;
   }
 
   // Swap two items.
@@ -109,6 +126,7 @@ class Sort {
     itemJ = $(itemJ).replaceWith($(itemI).clone());
     $(itemI).replaceWith(itemJ);
 
+    // Update and return the items list.
     this.comb.updateSelector("items");
     return $(this.comb.elements.items);
   }
