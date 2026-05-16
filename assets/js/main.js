@@ -13,6 +13,7 @@ $(document).ready(function() {
         "order": "desc",
       },
       "videos": {
+        "type": "number",
         "order": "desc",
         "default": true,
       },

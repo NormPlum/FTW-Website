@@ -21,10 +21,10 @@ class Comb {
 
     // Pager.
     if (this.elements.pager) {
-      this.pager = new Pager(this);
+      // this.pager = new Pager(this);
     }
 
-    console.log(this.settings);
+    // console.log(this.settings);
   }
 
   // Validate the settings.
@@ -112,6 +112,9 @@ class Comb {
           if (!settings[setting][field].text) {
             settings[setting][field].text = field.replace(/\b\w/, char => char.toUpperCase());
           }
+          if (!settings[setting][field].type) {
+            settings[setting][field].type = "string";
+          }
           if (!settings[setting][field].order) {
             settings[setting][field].order = "asc";
           }
@@ -134,6 +137,11 @@ class Comb {
     }
 
     return settings;
+  }
+
+  // Update a selector.
+  updateSelector(selector) {
+    this.elements[selector] = $(this.settings[selector]).get();
   }
 
   // Get a list of visible items.
