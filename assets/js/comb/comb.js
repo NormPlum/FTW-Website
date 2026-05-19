@@ -17,11 +17,17 @@ class Comb {
     // Sort.
     if (this.elements.sort) {
       this.sort = new Sort(this);
+
+      $(this.sort).on("sorted", (event) => {
+        if (this.pager) {
+          this.pager.paginate();
+        }
+      });
     }
 
     // Pager.
     if (this.elements.pager) {
-      // this.pager = new Pager(this);
+      this.pager = new Pager(this);
     }
 
     // console.log(this.settings);

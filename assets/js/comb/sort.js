@@ -4,12 +4,15 @@ class Sort {
   constructor(comb) {
     this.comb = comb;
 
+    // Create custom "sorted" event.
+    this.sortedEvent = jQuery.Event("sorted");
+
     // Add and save sort links.
-    let sortLinks = $('<ul class="comb-sort"></ul>');
+    let links = $('<ul class="comb-sort"></ul>');
     for (let field in this.comb.settings.sortFields) {
-      sortLinks.append('<li><a href="#" data-field="' + field + '" data-type="' + this.comb.settings.sortFields[field].type + '">' + this.comb.settings.sortFields[field].text + '</a></li>');
+      links.append('<li><a href="#" data-field="' + field + '" data-type="' + this.comb.settings.sortFields[field].type + '">' + this.comb.settings.sortFields[field].text + '</a></li>');
     }
-    $(this.comb.elements.sort).append(sortLinks);
+    $(this.comb.elements.sort).append(links);
     this.sortLinks = $(this.comb.elements.sort).find("ul.comb-sort a").get();
 
     // Handle click events.
@@ -63,12 +66,16 @@ class Sort {
     return (current == "asc") ? "desc" : "asc";
   }
 
-  // Sort items using the quicksort algorithm (https://en.wikipedia.org/wiki/Quicksort).
-  sortItems(field, type, order, start = null, end = null) {
-    let items = $(this.comb.elements.items);
-    if (start == null) start = 0;
-    if (end == null) end = items.length - 1;
+  // Sort items in-place.
+  sortItems(field, type, order) {
+    this.quickSort(field, type, order, 0, $(this.comb.elements.items).length - 1);
 
+    $(this).trigger("sorted");
+  }
+
+  // Customised quicksort algorithm (https://en.wikipedia.org/wiki/Quicksort).
+  quickSort(field, type, order, start, end) {
+    let items = $(this.comb.elements.items);
     if (start >= end) return;
 
     let i = start - 1;
@@ -102,8 +109,8 @@ class Sort {
     }
 
     // Recursively sort all items on either side of the pivot.
-    this.sortItems(field, type, order, start, p);
-    this.sortItems(field, type, order, p + 1, end);
+    this.quickSort(field, type, order, start, p);
+    this.quickSort(field, type, order, p + 1, end);
   }
 
   // Get the value to sort by.
