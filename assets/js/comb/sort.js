@@ -10,7 +10,11 @@ class Sort {
     // Add and save sort links.
     let links = $('<ul class="comb-sort"></ul>');
     for (let field in this.comb.settings.sortFields) {
-      links.append('<li><a href="#" data-field="' + field + '" data-type="' + this.comb.settings.sortFields[field].type + '">' + this.comb.settings.sortFields[field].text + '</a></li>');
+      links.append(
+        '<li><a href="#" data-field="' + field + '" data-type="' + this.comb.settings.sortFields[field].type + '">' +
+        this.comb.settings.sortFields[field].text +
+        '</a></li>'
+      );
     }
     $(this.comb.elements.sort).append(links);
     this.sortLinks = $(this.comb.elements.sort).find("ul.comb-sort a").get();

@@ -1,4 +1,5 @@
 import Sort from "./sort.js";
+import Search from "./search.js";
 import Pager from "./pager.js";
 
 class Comb {
@@ -19,6 +20,17 @@ class Comb {
       this.sort = new Sort(this);
 
       $(this.sort).on("sorted", (event) => {
+        if (this.pager) {
+          this.pager.paginate();
+        }
+      });
+    }
+
+    // Search.
+    if (this.elements.search) {
+      this.search = new Search(this);
+
+      $(this.search).on("searched", (event) => {
         if (this.pager) {
           this.pager.paginate();
         }
@@ -66,6 +78,18 @@ class Comb {
         type: "object",
         default: ["▴", "▾"],
         selector: false,
+      },
+      "search": {
+        required: false,
+        type: "string",
+        default: null,
+        selector: true,
+      },
+      "searchData": {
+        required: false,
+        type: "string",
+        default: null,
+        selector: true,
       },
       "pager": {
         required: false,

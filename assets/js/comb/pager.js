@@ -27,14 +27,15 @@ class Pager {
   paginate() {
     let currentPageStart = (this.currentPage - 1) * this.comb.settings.pagerItemsPerPage;
     let currentPageEnd = currentPageStart + this.comb.settings.pagerItemsPerPage;
+    let visibleItems = this.comb.visibleItems();
 
-    for (let i in this.comb.visibleItems()) {
+    for (let i in visibleItems) {
       // Hide all items.
-      $(this.comb.elements.items[i]).hide();
+      $(visibleItems[i]).hide();
 
       // Then show items on the current page.
       if (i >= currentPageStart && i < currentPageEnd) {
-        $(this.comb.elements.items[i]).show();
+        $(visibleItems[i]).show();
       }
     }
 
@@ -45,6 +46,9 @@ class Pager {
   updatePager() {
     // Skip the pager if there's only one page.
     if (this.numPages() == 1) {
+      if ($(this.comb.elements.pager).children("ul").length) {
+        $(this.comb.elements.pager).children("ul").remove();
+      }
       return;
     }
 

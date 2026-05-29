@@ -18,6 +18,8 @@ $(document).ready(function() {
         "default": true,
       },
     },
+    search: "#search",
+    searchData: ".searchable",
     pager: "#pager",
     pagerItemsPerPage: 30,
   });
