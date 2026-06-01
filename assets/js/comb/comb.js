@@ -11,18 +11,14 @@ class Comb {
     this.hiddenClass = "comb-hidden";
 
     // Empty.
-    if (this.elements.empty) {
-      $(this.elements.empty).hide();
-    }
+    this.toggleEmpty();
 
     // Sort.
     if (this.elements.sort) {
       this.sort = new Sort(this);
 
       $(this.sort).on("sorted", (event) => {
-        if (this.pager) {
-          this.pager.paginate();
-        }
+        this.updatePagination();
       });
     }
 
@@ -31,9 +27,8 @@ class Comb {
       this.search = new Search(this);
 
       $(this.search).on("searched", (event) => {
-        if (this.pager) {
-          this.pager.paginate();
-        }
+        this.updatePagination();
+        this.toggleEmpty();
       });
     }
 
@@ -41,8 +36,6 @@ class Comb {
     if (this.elements.pager) {
       this.pager = new Pager(this);
     }
-
-    // console.log(this.settings);
   }
 
   // Validate the settings.
@@ -140,7 +133,9 @@ class Comb {
       else if (setting == "sortFields") {
         for (let field in settings[setting]) {
           if (!settings[setting][field].text) {
-            settings[setting][field].text = field.replace(/\b\w/, char => char.toUpperCase());
+            settings[setting][field].text = field.replace(/\b\w/, (char) => {
+              return char.toUpperCase();
+            });
           }
           if (!settings[setting][field].type) {
             settings[setting][field].type = "string";
@@ -167,6 +162,25 @@ class Comb {
     }
 
     return settings;
+  }
+
+  // Show/hide 'empty' element.
+  toggleEmpty() {
+    if (this.elements.empty) {
+      if (this.visibleItems().length == 0) {
+        $(this.elements.empty).show();
+      }
+      else {
+        $(this.elements.empty).hide();
+      }
+    }
+  }
+
+  // Update the pagination.
+  updatePagination() {
+    if (this.pager) {
+      this.pager.paginate();
+    }
   }
 
   // Update a selector.

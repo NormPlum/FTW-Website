@@ -41,7 +41,6 @@ class Search {
       return;
     }
 
-    console.log(this.comb.visibleItems());
     $(this.comb.visibleItems()).each((i, item) => {
       let data = (this.comb.settings.searchData) ? $(item).find(this.comb.settings.searchData) : item;
       let text = $(data).text().toLowerCase();

@@ -54,7 +54,9 @@ class Sort {
 
     // Add/update the sort indicator.
     if ($(link).children("span").length) {
-      let current = Object.keys(this.comb.settings.sortIndicators).find((key) => this.comb.settings.sortIndicators[key] === $(link).children("span").text().trim());
+      let current = Object.keys(this.comb.settings.sortIndicators).find((key) => {
+        return this.comb.settings.sortIndicators[key] === $(link).children("span").text().trim();
+      });
       $(link).children("span").text(" " + this.comb.settings.sortIndicators[this.toggleOrder(current)]);
     }
     else {
