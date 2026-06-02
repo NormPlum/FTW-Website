@@ -78,11 +78,11 @@ class Comb {
         default: null,
         selector: true,
       },
-      "searchData": {
+      "searchFields": {
         required: false,
-        type: "string",
-        default: null,
-        selector: true,
+        type: "object",
+        default: [],
+        selector: false,
       },
       "pager": {
         required: false,

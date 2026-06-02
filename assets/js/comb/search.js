@@ -5,6 +5,7 @@ class Search {
     this.comb = comb;
     this.delay = 300;
     this.hiddenClass = "comb-hidden-search";
+    this.searchFields = this.comb.settings.searchFields;
 
     // Create custom "searched" event.
     this.searchedEvent = jQuery.Event("searched");
@@ -42,8 +43,17 @@ class Search {
     }
 
     $(this.comb.visibleItems()).each((i, item) => {
-      let data = (this.comb.settings.searchData) ? $(item).find(this.comb.settings.searchData) : item;
-      let text = $(data).text().toLowerCase();
+      let text = "";
+      if (this.searchFields.length == 0) {
+        text = $(item).text();
+      }
+      else {
+        for (let i in this.searchFields) {
+          text += $(item).find("[data-" + this.searchFields[i] + "]").attr("data-" + this.searchFields[i]);
+        }
+      }
+      text = text.toLowerCase().trim();
+
       if (text.includes(term)) {
         $(item).removeClass(this.hiddenClass);
         this.comb.showItem(item);

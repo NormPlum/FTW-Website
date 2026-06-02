@@ -19,7 +19,9 @@ $(document).ready(function() {
       },
     },
     search: "#search",
-    searchData: ".searchable",
+    searchFields: [
+      "name",
+    ],
     pager: "#pager",
     pagerItemsPerPage: 30,
   });
