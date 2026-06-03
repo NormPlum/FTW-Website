@@ -29,13 +29,13 @@ class Pager {
     let currentPageEnd = currentPageStart + this.comb.settings.pagerItemsPerPage;
     let visibleItems = this.comb.visibleItems();
 
-    for (let i in visibleItems) {
+    for (let item in visibleItems) {
       // Hide all items.
-      $(visibleItems[i]).hide();
+      $(visibleItems[item]).hide();
 
       // Then show items on the current page.
-      if (i >= currentPageStart && i < currentPageEnd) {
-        $(visibleItems[i]).show();
+      if (item >= currentPageStart && item < currentPageEnd) {
+        $(visibleItems[item]).show();
       }
     }
 

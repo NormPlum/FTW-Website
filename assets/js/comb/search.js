@@ -32,37 +32,30 @@ class Search {
 
   // Perform a search for the given term.
   search(term) {
-    if (term.length == 0) {
+    this.comb.reset(this.hiddenClass);
+
+    if (term.length > 0) {
       $(this.comb.elements.items).each((i, item) => {
-        if ($(item).hasClass(this.hiddenClass)) {
+        let text = "";
+        if (this.searchFields.length == 0) {
+          text = $(item).text();
+        }
+        else {
+          for (let field in this.searchFields) {
+            text += $(item).find("[data-" + this.searchFields[field] + "]").attr("data-" + this.searchFields[field]);
+          }
+        }
+        text = text.toLowerCase().trim();
+
+        if (text.includes(term)) {
           $(item).removeClass(this.hiddenClass);
-          this.comb.showItem(item);
         }
+        else {
+          $(item).addClass(this.hiddenClass);
+        }
+        this.comb.updateVisibility(item);
       });
-      return;
     }
-
-    $(this.comb.visibleItems()).each((i, item) => {
-      let text = "";
-      if (this.searchFields.length == 0) {
-        text = $(item).text();
-      }
-      else {
-        for (let i in this.searchFields) {
-          text += $(item).find("[data-" + this.searchFields[i] + "]").attr("data-" + this.searchFields[i]);
-        }
-      }
-      text = text.toLowerCase().trim();
-
-      if (text.includes(term)) {
-        $(item).removeClass(this.hiddenClass);
-        this.comb.showItem(item);
-      }
-      else {
-        $(item).addClass(this.hiddenClass);
-        this.comb.hideItem(item);
-      }
-    });
   }
 
   // Delay calling a function until after a set time.

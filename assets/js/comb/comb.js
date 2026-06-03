@@ -1,5 +1,6 @@
 import Sort from "./sort.js";
 import Search from "./search.js";
+import Filter from "./filter.js";
 import Pager from "./pager.js";
 
 class Comb {
@@ -27,6 +28,16 @@ class Comb {
       this.search = new Search(this);
 
       $(this.search).on("searched", (event) => {
+        this.updatePagination();
+        this.toggleEmpty();
+      });
+    }
+
+    // Filter.
+    if (this.elements.filter) {
+      this.filter = new Filter(this);
+
+      $(this.filter).on("filtered", (event) => {
         this.updatePagination();
         this.toggleEmpty();
       });
@@ -82,6 +93,18 @@ class Comb {
         required: false,
         type: "object",
         default: [],
+        selector: false,
+      },
+      "filter": {
+        required: false,
+        type: "string",
+        default: null,
+        selector: true,
+      },
+      "filterFields": {
+        required: false,
+        type: "object",
+        default: {},
         selector: false,
       },
       "pager": {
@@ -148,6 +171,15 @@ class Comb {
           }
         }
       }
+      else if (setting == "filterFields") {
+        for (let field in settings[setting]) {
+          if (!settings[setting][field].text) {
+            settings[setting][field].text = field.replace(/\b\w/, (char) => {
+              return char.toUpperCase();
+            });
+          }
+        }
+      }
       if (setting == "sortIndicators") {
         settings[setting] = {
           "asc": settings[setting][0],
@@ -193,14 +225,24 @@ class Comb {
     return $(this.elements.items).not("." + this.hiddenClass).get();
   }
 
-  // Hide an item.
-  hideItem(item) {
-    $(item).addClass(this.hiddenClass).hide();
+  // Update an item's visibility based on its classes.
+  updateVisibility(item) {
+    if ($(item).filter('[class*="comb-hidden-"]').length == 0) {
+      $(item).removeClass(this.hiddenClass).show();
+    }
+    else {
+      $(item).addClass(this.hiddenClass).hide();
+    }
   }
 
-  // Show an item.
-  showItem(item) {
-    $(item).removeClass(this.hiddenClass).show();
+  // Reset visibility back to the default.
+  reset(hiddenClass) {
+    $(this.elements.items).each((i, item) => {
+      if ($(item).hasClass(hiddenClass)) {
+        $(item).removeClass(hiddenClass);
+        this.updateVisibility(item);
+      }
+    });
   }
 
 }

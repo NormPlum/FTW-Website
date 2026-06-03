@@ -1,6 +1,7 @@
 {{ define "main" }}
   <h1>{{ .Title }}</h1>
   <div id="search"></div>
+  <div id="filters"></div>
   <div id="sort"></div>
 
   {{ range (.Pages.ByDate.ByParam "videos").Reverse }}

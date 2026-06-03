@@ -39,9 +39,9 @@ class Sort {
 
     // Reset non-clicked links.
     let otherLinks = $(this.sortLinks).not(link).get();
-    for (let i in otherLinks) {
-      $(otherLinks[i]).removeAttr("data-order");
-      $(otherLinks[i]).children("span").remove();
+    for (let otherLink in otherLinks) {
+      $(otherLinks[otherLink]).removeAttr("data-order");
+      $(otherLinks[otherLink]).children("span").remove();
     }
 
     // Toggle/set the sort order.

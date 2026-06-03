@@ -22,6 +22,10 @@ $(document).ready(function() {
     searchFields: [
       "name",
     ],
+    filter: "#filters",
+    filterFields: {
+      "videos": {},
+    },
     pager: "#pager",
     pagerItemsPerPage: 30,
   });
