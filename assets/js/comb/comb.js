@@ -11,6 +11,11 @@ class Comb {
     this.settings = this.validateSettings(settings);
     this.hiddenClass = "comb-hidden";
 
+    // Disable combing if 'items' not found.
+    if (this.elements.items.length == 0) {
+      return;
+    }
+
     // Empty.
     this.toggleEmpty();
 

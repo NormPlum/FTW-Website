@@ -2,9 +2,9 @@
 
 #### Required
 
-| Setting | Type   | Description                                   |
-|---------|--------|-----------------------------------------------|
-| `items` | string | CSS selector of the elements to comb through. |
+| Setting | Type   | Description                                                                                 |
+|---------|--------|---------------------------------------------------------------------------------------------|
+| `items` | string | CSS selector of the elements to comb through. Combing is disabled if this is not set/found. |
 
 #### Optional
 

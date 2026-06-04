@@ -2,7 +2,7 @@ import Comb from "./comb/comb.js";
 
 $(document).ready(function() {
   var comb = new Comb({
-    items: "section",
+    items: "#channels section",
     empty: "#empty",
     sort: "#sort",
     sortFields: {
