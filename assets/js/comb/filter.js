@@ -12,10 +12,19 @@ class Filter {
     for (let field in this.comb.settings.filterFields) {
       let filter = $('<select class="comb-filter comb-filter-' + field + '" data-field="' + field + '"></select>');
       filter.append('<option value="comb-all">- ' + this.comb.settings.filterFields[field].text + ' -</option>');
+
+      let values = [];
       $(this.comb.elements.items).each((i, item) => {
         let value = $(item).find("[data-" + field + "]").attr("data-" + field);
-        filter.append('<option value="' + value + '">' + value + '</option>');
+        if (!values.includes(value)) {
+          values.push(value);
+        }
       });
+      values.sort();
+      for (let value of values) {
+        filter.append('<option value="' + value + '">' + value + '</option>');
+      }
+
       $(this.comb.elements.filter).append(filter);
     }
     this.filterFields = $(this.comb.elements.filter).find("select").get();
