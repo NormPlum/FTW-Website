@@ -30,3 +30,5 @@ disableKinds = [
     pageRef = "/about"
     weight = 50
 timeout = 120
+[build]
+  noJSConfigInAssets = true
