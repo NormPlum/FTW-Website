@@ -1,10 +1,6 @@
-{{- $options := dict
-  "minify" (cond hugo.IsDevelopment false true)
-  "sourceMap" (cond hugo.IsDevelopment "linked" "none")
-}}
-
 {{- with resources.Get "css/main.css" }}
-  {{- with . | css.Build $options }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}">
+  {{- $opts := dict "minify" (cond hugo.IsDevelopment false true) }}
+  {{- with . | css.Build $opts }}
+    <link href="{{ .RelPermalink }}" rel="stylesheet">
   {{- end }}
 {{- end }}

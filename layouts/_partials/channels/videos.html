@@ -1,0 +1,38 @@
+<div id="videos">
+  <h2>Videos</h2>
+  <div id="search"></div>
+  <div id="filters"></div>
+
+  {{ range $video := sort (index hugo.Data.channels .Params.id "videos") "date" "desc" }}
+    {{ $tmdb := dict }}
+    {{ $url_path := "" }}
+    {{ if eq $video.tmdb_type "movie" }}
+      {{ $tmdb = index (where hugo.Data.movies "id" $video.tmdb_id) 0 }}
+      {{ $url_path = "movies" }}
+    {{ else }}
+      {{ $tmdb = index (where hugo.Data.tvseries "id" $video.tmdb_id) 0 }}
+      {{ $url_path = "tv-series" }}
+    {{ end }}
+
+    <article>
+      <h3 data-name="{{ $video.title }}"><a href="https://www.youtube.com/watch?v={{ $video.id }}">{{ $video.title }}</a></h3>
+      <p class="link"><a href="/{{ $url_path }}/{{ $video.tmdb_id }}">{{ $tmdb.title }} ({{ $tmdb.date | dateFormat "2006" }})
+        {{ with resources.Get (print "images/" $url_path "/" $video.tmdb_id ".jpg") }}
+          <img class="image" src="{{ .RelPermalink }}" width="100" height="" loading="lazy" alt="Poster for '{{ $tmdb.title }}'.">
+        {{ end }}
+      </a></p>
+      {{ with $tmdb.genres }}
+        <p class="genres">Genres: {{ delimit . ", " }}</p>
+        <ul style="display: none;">
+          {{ range . }}
+            <li data-genre="{{ . }}">{{ . }}</li>
+          {{ end }}
+        </ul>
+      {{ end }}
+      <p class="date" data-date="{{ $video.date | dateFormat "2006-01-02" }}">Posted: {{ $video.date | dateFormat $.Site.Params.dateFormat }}</p>
+    </article>
+  {{ end }}
+
+  <p id="empty">No results</p>
+  <div id="pager"></div>
+</div>

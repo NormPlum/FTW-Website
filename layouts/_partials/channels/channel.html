@@ -1,0 +1,21 @@
+{{ $type := .type | default "full" }}
+{{ with .channel }}
+  {{ $title := .LinkTitle }}
+
+  <article>
+    {{ if eq $type "teaser" }}
+      <h2 data-name="{{ $title }}">
+        <a href="{{ .RelPermalink }}">{{ $title }}</a>
+      </h2>
+    {{ else }}
+      <h1 data-name="{{ $title }}">{{ $title }}</h1>
+    {{ end }}
+    <p class="date" data-date="{{ .Date | dateFormat "2006-01-02" }}">Launched: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
+    <p class="videos" data-videos="{{ .Params.videos }}">Videos: {{ .Params.videos }}</p>
+    <p class="link"><a href="https://www.youtube.com/channel/{{ .Params.id }}">View on YouTube</a></p>
+    {{ with resources.Get (print "images/channels/" .Params.id ".jpg") }}
+      <img class="image" src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" loading="lazy" alt="Logo for the channel '{{ $title }}'.">
+    {{ end }}
+  </article>
+
+{{ end }}

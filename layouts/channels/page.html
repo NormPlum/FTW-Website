@@ -1,10 +1,4 @@
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
-  <p>Launched: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
-  <p>Videos: {{ .Params.videos }}</p>
-  <p><a href="https://www.youtube.com/channel/{{ .Params.id }}">View on YouTube</a></p>
-  {{ with resources.Get (print "images/channels/" .Params.id ".jpg") }}
-    <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="Logo for the channel '{{ $.Title }}'.">
-  {{ end }}
-  {{ partial "channel-videos.html" . }}
+{{ partial "channels/channel.html" (dict "channel" .) }}
+{{ partial "channels/videos.html" . }}
 {{ end }}

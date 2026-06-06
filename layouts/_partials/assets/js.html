@@ -3,9 +3,7 @@
 {{- end }}
 
 {{- with resources.Get "js/main.js" }}
-  {{- $opts := dict
-    "minify" (cond hugo.IsDevelopment false true)
-  }}
+  {{- $opts := dict "minify" (cond hugo.IsDevelopment false true) }}
   {{- with . | js.Build $opts }}
     <script src="{{ .RelPermalink }}" type="module"></script>
   {{- end }}
