@@ -42,8 +42,8 @@ $(document).ready(function() {
     pagerItemsPerPage: 30,
   });
 
-  var videos = new Comb({
-    items: "#videos article",
+  var channelVideos = new Comb({
+    items: "#channel-videos article",
     empty: "#empty",
     search: "#search",
     searchFields: [
@@ -51,7 +51,23 @@ $(document).ready(function() {
     ],
     filter: "#filters",
     filterFields: {
+      "type": {},
       "genre": {},
+    },
+    pager: "#pager",
+    pagerItemsPerPage: 30,
+  });
+
+  var tmdbVideos = new Comb({
+    items: "#tmdb-videos article",
+    empty: "#empty",
+    search: "#search",
+    searchFields: [
+      "name",
+    ],
+    filter: "#filters",
+    filterFields: {
+      "channel": {},
     },
     pager: "#pager",
     pagerItemsPerPage: 30,

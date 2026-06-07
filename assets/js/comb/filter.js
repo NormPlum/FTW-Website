@@ -20,7 +20,8 @@ class Filter {
           values.push(value);
         }
       });
-      values.sort();
+      if (values.length < 2) return;
+      values.sort((a, b) => a.localeCompare(b, undefined, {"sensitivity": "base"}));
       for (let value of values) {
         filter.append('<option value="' + value + '">' + value + '</option>');
       }

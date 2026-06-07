@@ -1,4 +1,4 @@
-<div id="videos">
+<div id="channel-videos">
   <h2>Videos</h2>
   <div id="search"></div>
   <div id="filters"></div>
@@ -16,11 +16,20 @@
 
     <article>
       <h3 data-name="{{ $video.title }}"><a href="https://www.youtube.com/watch?v={{ $video.id }}">{{ $video.title }}</a></h3>
+      {{ if eq $url_path "movies" }}
+        <p style="display: none;" data-type="Movie">Movie<p>
+      {{ else }}
+        <p style="display: none;" data-type="TV Series">TV Series<p>
+      {{ end }}
       <p class="link"><a href="/{{ $url_path }}/{{ $video.tmdb_id }}">{{ $tmdb.title }} ({{ $tmdb.date | dateFormat "2006" }})
         {{ with resources.Get (print "images/" $url_path "/" $video.tmdb_id ".jpg") }}
           <img class="image" src="{{ .RelPermalink }}" width="100" height="" loading="lazy" alt="Poster for '{{ $tmdb.title }}'.">
         {{ end }}
       </a></p>
+      {{ if eq $video.tmdb_type "tv_series" }}
+        <p class="season" data-season="{{ $video.seasons }}">Season: {{ $video.seasons }}</p>
+        <p class="episodes" data-episodes="{{ $video.episodes }}">Episodes: {{ $video.episodes }}</p>
+      {{ end }}
       {{ with $tmdb.genres }}
         <p class="genres">Genres: {{ delimit . ", " }}</p>
         <ul style="display: none;">
