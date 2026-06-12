@@ -1,14 +1,17 @@
 {{ define "main" }}
-<div id="tv-series">
+<section id="tv-series">
   <h1>TV Series</h1>
-  <div id="search"></div>
-  <div id="filters"></div>
+  <div id="filters">
+    <div id="search"></div>
+  </div>
 
-  {{ range (.Pages.ByDate.ByParam "channels").Reverse }}
-    {{ partial "tmdb/tv-series.html" (dict "tvSeries" . "type" "teaser") }}
-  {{ end }}
+  <div class="articles">
+    {{ range (.Pages.ByDate.ByParam "channels").Reverse }}
+      {{ partial "tmdb/tv-series.html" (dict "tvSeries" . "type" "teaser") }}
+    {{ end }}
+    <p id="empty">No results</p>
+  </div>
 
-  <p id="empty">No results</p>
   <div id="pager"></div>
-</div>
+</section>
 {{ end }}

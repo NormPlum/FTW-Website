@@ -1,47 +1,54 @@
-<div id="channel-videos">
+<section id="channel-videos">
   <h2>Videos</h2>
-  <div id="search"></div>
-  <div id="filters"></div>
+  <div id="filters">
+    <div id="search"></div>
+  </div>
 
-  {{ range $video := sort (index hugo.Data.channels .Params.id "videos") "date" "desc" }}
-    {{ $tmdb := dict }}
-    {{ $url_path := "" }}
-    {{ if eq $video.tmdb_type "movie" }}
-      {{ $tmdb = index (where hugo.Data.movies "id" $video.tmdb_id) 0 }}
-      {{ $url_path = "movies" }}
-    {{ else }}
-      {{ $tmdb = index (where hugo.Data.tvseries "id" $video.tmdb_id) 0 }}
-      {{ $url_path = "tv-series" }}
-    {{ end }}
-
-    <article>
-      <h3 data-name="{{ $video.title }}"><a href="https://www.youtube.com/watch?v={{ $video.id }}">{{ $video.title }}</a></h3>
-      {{ if eq $url_path "movies" }}
-        <p style="display: none;" data-type="Movie">Movie<p>
+  <div class="videos">
+    {{ range $video := sort (index hugo.Data.channels .Params.id "videos") "date" "desc" }}
+      {{ $tmdb := dict }}
+      {{ $url_path := "" }}
+      {{ $type := "" }}
+      {{ if eq $video.tmdb_type "movie" }}
+        {{ $tmdb = index (where hugo.Data.movies "id" $video.tmdb_id) 0 }}
+        {{ $url_path = "movies" }}
+        {{ $type = "Movie" }}
       {{ else }}
-        <p style="display: none;" data-type="TV Series">TV Series<p>
+        {{ $tmdb = index (where hugo.Data.tvseries "id" $video.tmdb_id) 0 }}
+        {{ $url_path = "tv-series" }}
+        {{ $type = "TV Series" }}
       {{ end }}
-      <p class="link"><a href="/{{ $url_path }}/{{ $video.tmdb_id }}">{{ $tmdb.title }} ({{ $tmdb.date | dateFormat "2006" }})
-        {{ with resources.Get (print "images/" $url_path "/" $video.tmdb_id ".jpg") }}
-          <img class="image" src="{{ .RelPermalink }}" width="100" height="" loading="lazy" alt="Poster for '{{ $tmdb.title }}'.">
-        {{ end }}
-      </a></p>
-      {{ if eq $video.tmdb_type "tv_series" }}
-        <p class="season" data-season="{{ $video.seasons }}">Season: {{ $video.seasons }}</p>
-        <p class="episodes" data-episodes="{{ $video.episodes }}">Episodes: {{ $video.episodes }}</p>
-      {{ end }}
-      {{ with $tmdb.genres }}
-        <p class="genres">Genres: {{ delimit . ", " }}</p>
-        <ul style="display: none;">
-          {{ range . }}
-            <li data-genre="{{ . }}">{{ . }}</li>
-          {{ end }}
-        </ul>
-      {{ end }}
-      <p class="date" data-date="{{ $video.date | dateFormat "2006-01-02" }}">Posted: {{ $video.date | dateFormat $.Site.Params.dateFormat }}</p>
-    </article>
-  {{ end }}
 
-  <p id="empty">No results</p>
+      <article>
+        {{ with resources.Get (print "images/" $url_path "/" $video.tmdb_id ".jpg") }}
+          <a class="image" href="https://www.youtube.com/watch?v={{ $video.id }}">
+            <img src="{{ .RelPermalink }}" width="150" loading="lazy" alt="'{{ $tmdb.title }}' poster.">
+          </a>
+        {{ end }}
+        <div class="details">
+          <a class="name" href="https://www.youtube.com/watch?v={{ $video.id }}">
+            <h3 data-title="{{ $tmdb.title }}">{{ $tmdb.title }} ({{ $tmdb.date | dateFormat "2006" }})</h3>
+            <p data-name="{{ $video.title }}">({{ $video.title }}}</p>
+          </a>
+          <p style="display: none;" data-type="{{ $type }}">{{ $type }}</p>
+          <p class="date" data-date="{{ $video.date | dateFormat "2006-01-02" }}">Posted: {{ $video.date | dateFormat $.Site.Params.dateFormat }}</p>
+          {{ if eq $video.tmdb_type "tv_series" }}
+            <p class="season-episodes" data-season="{{ $video.seasons }}" data-episodes="{{ $video.episodes }}">S:{{ $video.seasons }} - E:{{ $video.episodes }}</p>
+          {{ end }}
+          {{ with $tmdb.genres }}
+            <p class="genres">Genres: {{ delimit . ", " }}</p>
+            <ul style="display: none;">
+              {{ range . }}
+                <li data-genre="{{ . }}">{{ . }}</li>
+              {{ end }}
+            </ul>
+          {{ end }}
+          <p class="link"><a href="/{{ $url_path }}/{{ $video.tmdb_id }}">{{ $type }} page</a></p>
+        </div>
+      </article>
+    {{ end }}
+    <p id="empty">No results</p>
+  </div>
+
   <div id="pager"></div>
-</div>
+</section>

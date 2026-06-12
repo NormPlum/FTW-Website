@@ -1,14 +1,17 @@
 {{ define "main" }}
-<div id="movies">
+<section id="movies">
   <h1>{{ .Title }}</h1>
-  <div id="search"></div>
-  <div id="filters"></div>
+  <div id="filters">
+    <div id="search"></div>
+  </div>
 
-  {{ range (.Pages.ByDate.ByParam "channels").Reverse }}
-    {{ partial "tmdb/movie.html" (dict "movie" . "type" "teaser") }}
-  {{ end }}
+  <div class="articles">
+    {{ range (.Pages.ByDate.ByParam "channels").Reverse }}
+      {{ partial "tmdb/movie.html" (dict "movie" . "type" "teaser") }}
+    {{ end }}
+    <p id="empty">No results</p>
+  </div>
 
-  <p id="empty">No results</p>
   <div id="pager"></div>
-</div>
+</section>
 {{ end }}

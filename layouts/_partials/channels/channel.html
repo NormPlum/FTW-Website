@@ -2,20 +2,30 @@
 {{ with .channel }}
   {{ $title := .LinkTitle }}
 
-  <article>
-    {{ if eq $type "teaser" }}
-      <h2 data-name="{{ $title }}">
-        <a href="{{ .RelPermalink }}">{{ $title }}</a>
-      </h2>
-    {{ else }}
+  <article class="{{ $type }}">
+    {{ $link := .RelPermalink }}
+    {{ if ne $type "teaser" }}
       <h1 data-name="{{ $title }}">{{ $title }}</h1>
     {{ end }}
-    <p class="date" data-date="{{ .Date | dateFormat "2006-01-02" }}">Launched: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
-    <p class="videos" data-videos="{{ .Params.videos }}">Videos: {{ .Params.videos }}</p>
-    <p class="link"><a href="https://www.youtube.com/channel/{{ .Params.id }}">View on YouTube</a></p>
     {{ with resources.Get (print "images/channels/" .Params.id ".jpg") }}
-      <img class="image" src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" loading="lazy" alt="Logo for the channel '{{ $title }}'.">
+      {{ if eq $type "teaser" }}
+        <a class="image" href="{{ $link }}">
+          <img src="{{ .RelPermalink }}" width="200" loading="lazy" alt="'{{ $title }}' logo.">
+        </a>
+      {{ else }}
+        <img class="image" src="{{ .RelPermalink }}" width="150" alt="'{{ $title }}' logo.">
+      {{ end }}
     {{ end }}
+    <div class="details">
+      {{ if eq $type "teaser" }}
+        <h2 data-name="{{ $title }}">
+          <a href="{{ $link }}">{{ $title }}</a>
+        </h2>
+      {{ end }}
+      <p class="date" data-date="{{ .Date | dateFormat "2006-01-02" }}">Launched: {{ .Date | dateFormat .Site.Params.dateFormat }}</p>
+      <p class="video-count" data-videos="{{ .Params.videos }}">Videos: {{ .Params.videos }}</p>
+      <p class="link"><a href="https://www.youtube.com/channel/{{ .Params.id }}">View on YouTube</a></p>
+    </div>
   </article>
 
 {{ end }}

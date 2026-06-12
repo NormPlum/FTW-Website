@@ -1,28 +1,36 @@
 {{ define "main" }}
-<h1>{{ site.Title }}</h1>
 
 <section id="channels">
-  <h2>Channels</h2>
-  {{ $channels := (site.GetPage "/channels").RegularPages }}
-  {{ range ($channels.ByDate.ByParam "videos").Reverse.Limit 3 }}
-    {{ partial "channels/channel.html" (dict "channel" . "type" "teaser") }}
-  {{ end }}
+  <h1>Top Channels</h1>
+  <div class="articles">
+    {{ $channels := (site.GetPage "/channels").RegularPages }}
+    {{ range ($channels.ByDate.ByParam "videos").Reverse.Limit 4 }}
+      {{ partial "channels/channel.html" (dict "channel" . "type" "teaser") }}
+    {{ end }}
+  </div>
+  <p class="more"><a href="/channels">All channels</a></p>
 </section>
 
 <section id="movies">
-  <h2>Movies</h2>
-  {{ $movies := (site.GetPage "/movies").RegularPages }}
-  {{ range ($movies.ByDate.ByParam "channels").Reverse.Limit 5 }}
-    {{ partial "tmdb/movie.html" (dict "movie" . "type" "teaser") }}
-  {{ end }}
+  <h1>Top Movies</h1>
+  <div class="articles">
+    {{ $movies := (site.GetPage "/movies").RegularPages }}
+    {{ range ($movies.ByDate.ByParam "channels").Reverse.Limit 5 }}
+      {{ partial "tmdb/movie.html" (dict "movie" . "type" "teaser") }}
+    {{ end }}
+  </div>
+  <p class="more"><a href="/movies">All movies</a></p>
 </section>
 
 <section id="tv-series">
-  <h2>TV Series</h2>
-  {{ $tv_series := (site.GetPage "/tv-series").RegularPages }}
-  {{ range ($tv_series.ByDate.ByParam "channels").Reverse.Limit 5 }}
-    {{ partial "tmdb/tv-series.html" (dict "tvSeries" . "type" "teaser") }}
-  {{ end }}
+  <h1>Top TV Series</h1>
+  <div class="articles">
+    {{ $tv_series := (site.GetPage "/tv-series").RegularPages }}
+    {{ range ($tv_series.ByDate.ByParam "channels").Reverse.Limit 5 }}
+      {{ partial "tmdb/tv-series.html" (dict "tvSeries" . "type" "teaser") }}
+    {{ end }}
+  </div>
+  <p class="more"><a href="/tv-series">All TV series</a></p>
 </section>
 
 {{ end }}

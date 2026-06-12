@@ -1,22 +1,61 @@
 <!DOCTYPE html>
 <html lang="{{ site.Language.Locale }}" dir="{{ or site.Language.Direction `ltr` }}">
 <head>
-  {{ partial "page/head.html" . }}
+
+  <title>
+    {{ if .IsHome }}
+      {{ site.Title }}
+    {{ else }}
+      {{ printf "%s | %s" .Title site.Title }}
+    {{ end }}
+  </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+  {{- with resources.Get "css/main.css" }}
+    {{- $opts := dict "minify" (cond hugo.IsDevelopment false true) }}
+    {{- with . | css.Build $opts }}
+      <link href="{{ .RelPermalink }}" rel="stylesheet">
+    {{- end }}
+  {{- end }}
+
+  {{- with resources.Get "js/jquery-4.0.0.slim.min.js" }}
+    <script src="{{ .RelPermalink }}"></script>
+  {{- end }}
+  {{- with resources.Get "js/main.js" }}
+    {{- $opts := dict "minify" (cond hugo.IsDevelopment false true) }}
+    {{- with . | js.Build $opts }}
+      <script src="{{ .RelPermalink }}" type="module"></script>
+    {{- end }}
+  {{- end }}
+
 </head>
-<body>
+<body class="{{ .Kind }}{{ with .Section }} {{ . }}{{ end }}">
+
   <div id="sidebar">
     <header>
-      {{ partial "page/header.html" . }}
+      <div id="site-logo">
+        <img src="/images/logo.png" width="150" height="92" alt="{{ site.Title }} logo" title="{{ site.Title }}">
+      </div>
     </header>
     <nav>
-      {{ partial "page/menu.html" (dict "menuID" "main" "page" .) }}
+      <ul>
+        {{ $currentPage := . }}
+        {{- range site.Menus.main -}}
+          <li><a href="{{ .URL }}"{{ if or ($currentPage.IsMenuCurrent .Menu .) ($currentPage.HasMenuCurrent .Menu .) }} class="active"{{ end }}>{{ .Name }}</a></li>
+        {{- end -}}
+      </ul>
     </nav>
     <footer>
-      {{ partial "page/footer.html" . }}
+      <p>This site uses the <a href="https://developer.themoviedb.org/">TMDB API</a> but is not endorsed or certified by <a href="https://www.themoviedb.org/">TMDB</a>.</p>
+      <p>Privacy-friendly analytics by <a href="https://counter.dev/">Counter.dev</a>.</p>
     </footer>
   </div>
+
   <main>
     {{ block "main" . }}{{ end }}
   </main>
+
 </body>
 </html>

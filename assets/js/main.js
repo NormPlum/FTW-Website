@@ -47,6 +47,7 @@ $(document).ready(function() {
     empty: "#empty",
     search: "#search",
     searchFields: [
+      "title",
       "name",
     ],
     filter: "#filters",
@@ -63,6 +64,7 @@ $(document).ready(function() {
     empty: "#empty",
     search: "#search",
     searchFields: [
+      "title",
       "name",
     ],
     filter: "#filters",

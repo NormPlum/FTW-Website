@@ -4,7 +4,7 @@ class Pager {
   constructor(comb) {
     this.comb = comb;
     this.currentPage = 1;
-    this.pagerWidth = 5;
+    this.pagerWidth = 7;
 
     this.paginate();
   }
@@ -126,6 +126,7 @@ class Pager {
   pagerItem(type) {
     let listItem = $("<li></li>");
     let anchor = $('<a href="#"></a>');
+    let span = $("<span></span>");
 
     switch (type) {
       case "previous":
@@ -137,11 +138,13 @@ class Pager {
         listItem.addClass("comb-pager-" + type);
         break;
       case "ellipsis":
-        listItem.text("…");
+        span.text("…");
+        listItem.append(span);
         listItem.addClass("comb-pager-" + type);
         break;
       case this.currentPage:
-        listItem.text(type);
+        span.text(type);
+        listItem.append(span);
         listItem.addClass("comb-pager-active");
         break;
       default:
