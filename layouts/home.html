@@ -15,7 +15,7 @@
   <h1>Top Movies</h1>
   <div class="articles">
     {{ $movies := (site.GetPage "/movies").RegularPages }}
-    {{ range ($movies.ByDate.ByParam "channels").Reverse.Limit 5 }}
+    {{ range ($movies.ByDate.ByParam "channels").Reverse.Limit 4 }}
       {{ partial "tmdb/movie.html" (dict "movie" . "type" "teaser") }}
     {{ end }}
   </div>
@@ -26,7 +26,7 @@
   <h1>Top TV Series</h1>
   <div class="articles">
     {{ $tv_series := (site.GetPage "/tv-series").RegularPages }}
-    {{ range ($tv_series.ByDate.ByParam "channels").Reverse.Limit 5 }}
+    {{ range ($tv_series.ByDate.ByParam "channels").Reverse.Limit 4 }}
       {{ partial "tmdb/tv-series.html" (dict "tvSeries" . "type" "teaser") }}
     {{ end }}
   </div>

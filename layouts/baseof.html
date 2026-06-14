@@ -47,15 +47,14 @@
         {{- end -}}
       </ul>
     </nav>
-    <footer>
-      <p>This site uses the <a href="https://developer.themoviedb.org/">TMDB API</a> but is not endorsed or certified by <a href="https://www.themoviedb.org/">TMDB</a>.</p>
-      <p>Privacy-friendly analytics by <a href="https://counter.dev/">Counter.dev</a>.</p>
-    </footer>
+    {{ partial "footer.html" }}
   </div>
 
   <main>
     {{ block "main" . }}{{ end }}
   </main>
+
+  {{ partial "footer.html" }}
 
 </body>
 </html>
