@@ -6,8 +6,9 @@ disableKinds = [
   "taxonomy",
   "term",
 ]
+disableHugoGeneratorInject = true
 [params]
-  dateFormat = ":date_medium"
+  dateFormat = "2 Jan 2006 3:04 PM"
 [menus]
   [[menus.main]]
     name = "Home"

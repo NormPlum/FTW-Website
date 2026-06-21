@@ -12,23 +12,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  {{ partial "opengraph.html" . }}
 
-  {{- with resources.Get "css/main.css" }}
-    {{- $opts := dict "minify" (cond hugo.IsDevelopment false true) }}
-    {{- with . | css.Build $opts }}
+  {{ with resources.Get "css/main.css" }}
+    {{ $opts := dict "minify" (cond hugo.IsDevelopment false true) }}
+    {{ with . | css.Build $opts }}
       <link href="{{ .RelPermalink }}" rel="stylesheet">
-    {{- end }}
-  {{- end }}
+    {{ end }}
+  {{ end }}
 
-  {{- with resources.Get "js/jquery-4.0.0.slim.min.js" }}
-    <script src="{{ .RelPermalink }}"></script>
-  {{- end }}
-  {{- with resources.Get "js/main.js" }}
-    {{- $opts := dict "minify" (cond hugo.IsDevelopment false true) }}
-    {{- with . | js.Build $opts }}
+  {{ with resources.Get "js/jquery-4.0.0.slim.min.js" }}
+      <script src="{{ .RelPermalink }}"></script>
+  {{ end }}
+  {{ with resources.Get "js/main.js" }}
+    {{ $opts := dict "minify" (cond hugo.IsDevelopment false true) }}
+    {{ with . | js.Build $opts }}
       <script src="{{ .RelPermalink }}" type="module"></script>
-    {{- end }}
-  {{- end }}
+    {{ end }}
+  {{ end }}
 
 </head>
 <body class="{{ .Kind }}{{ with .Section }} {{ . }}{{ end }}">
@@ -42,9 +43,9 @@
     <nav>
       <ul>
         {{ $currentPage := . }}
-        {{- range site.Menus.main -}}
+        {{ range site.Menus.main }}
           <li><a href="{{ .URL }}"{{ if or ($currentPage.IsMenuCurrent .Menu .) ($currentPage.HasMenuCurrent .Menu .) }} class="active"{{ end }}>{{ .Name }}</a></li>
-        {{- end -}}
+        {{ end }}
       </ul>
     </nav>
     {{ partial "footer.html" }}
